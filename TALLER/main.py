@@ -1,4 +1,4 @@
-from Inventory import Agregar_producto, Actualizar_inv_productos, Eliminar_inv_producto, Mostar_productos
+from Inventory import Agregar_producto, Actualizar_inv_productos, Eliminar_inv_producto, Mostrar_productos
 from inicializador_datos import inicializar_archivo_json
 
 def menu():
@@ -24,12 +24,12 @@ def main():
             nombre_producto = input("Ingrese el nombre del producto a modificar: ")
             nueva_cantidad = input("Ingrese la nueva cantidad: ")
             nuevo_precio = input("Ingrese el nuevo precio: ")
-            Actualizar_inv_productos(nombre_producto, nueva_cantidad, nuevo_precio)
+            Actualizar_inv_productos(nombre_producto, nueva_cantidad, nuevo_precio)  # Pasar argumentos
         elif opcion == '3':
             nombre_producto = input("Ingrese el nombre del producto a eliminar: ")
             Eliminar_inv_producto(nombre_producto)
         elif opcion == '4':
-            Mostar_productos()
+            Mostrar_productos()
         elif opcion == '5':
             print("¡Gracias por usar el inventario!")
             break
