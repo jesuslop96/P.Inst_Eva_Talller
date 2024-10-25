@@ -14,39 +14,40 @@ def Agregar_producto(nombre, cantidad, precio):
     print(f"Producto registrado: '{nombre}' con cantidad {cantidad} y precio {precio}.")
 
 
-def Actualizar_inv_productos(nombre_producto, nueva_cantidad, nuevo_precio):
+def Actualizar_inv_productos(nombre, nueva_cantidad, nuevo_precio):
     productos = Cargar_datos()
-    for producto in productos:
-        if producto["Nombre del producto"] == nombre_producto:
-            if nueva_cantidad is not None:
-                producto["Cantidad de productos"] = int(nueva_cantidad)  # Convertir a int
-                print(f"Cantidad de '{nombre_producto}' modificada a {nueva_cantidad}.")
+    producto_encontrado = next((p for p in productos if p["Nombre del producto"] == nombre), None)
 
-            if nuevo_precio is not None:
-                producto["Precio del producto"] = float(nuevo_precio)  # Convertir a float
-                print(f"Precio de '{nombre_producto}' modificado a {nuevo_precio}.")
+    if producto_encontrado is None:
+        print("El producto no existe en el inventario.")
+        return
 
-            print(f"Producto '{nombre_producto}' actualizado.")
-            Guardar_datos(productos)  # Guardar después de actualizar
-            return
+    try:
+        if nueva_cantidad is not None:
+            producto_encontrado["Cantidad de productos"] = int(nueva_cantidad)
 
-    print(f"Producto '{nombre_producto}' no encontrado.")
+        if nuevo_precio is not None:
+            producto_encontrado["Precio del producto"] = float(nuevo_precio)
 
+        Guardar_datos(productos)
+        print(f"Producto {nombre} actualizado con éxito.")
+    except ValueError:
+        print("Error: La cantidad y el precio deben ser números válidos.")
 
 def Eliminar_inv_producto(nombre_producto):
     productos = Cargar_datos()
+    producto_encontrado = next((p for p in productos if p["Nombre del producto"] == nombre_producto), None)
 
-    for producto in productos:
-        if producto["Nombre del producto"] == nombre_producto:
-            productos.remove(producto)
-            Guardar_datos(productos)
-            print(f"Producto '{nombre_producto}' eliminado.")
-            return
+    if producto_encontrado is None:
+        print("El producto no existe en el inventario.")
+        return
 
-    print("Producto no encontrado.")
+    productos.remove(producto_encontrado)
+    Guardar_datos(productos)
+    print(f"Producto {nombre_producto} eliminado con éxito.")
 
 
-def Mostar_productos():
+def Mostrar_productos():
     productos = Cargar_datos()
 
     if not productos:
